@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "full_name": "google/compose-samples",
+    "description": "Official Jetpack Compose samples",
+    "stargazers_count": 18000,
+    "language": "Kotlin"
+  },
+  {
+    "id": 2,
+    "full_name": "square/okhttp",
+    "description": "Square's meticulous HTTP client for the JVM, Android, and GraalVM",
+    "stargazers_count": 45000,
+    "language": "Kotlin"
+  },
+  {
+    "id": 3,
+    "full_name": "bumptech/glide",
+    "description": "An image loading and caching library for Android",
+    "stargazers_count": 34000,
+    "language": "Java"
+  },
+  {
+    "id": 4,
+    "full_name": "ReactiveX/RxJava",
+    "description": "RxJava – Reactive Extensions for the JVM",
+    "stargazers_count": 47000,
+    "language": "Java"
+  },
+  {
+    "id": 5,
+    "full_name": "square/retrofit",
+    "description": "A type-safe HTTP client for Android and JVM",
+    "stargazers_count": 42000,
+    "language": "Java"
+  },
+  {
+    "id": 6,
+    "full_name": "Kotlin/kotlinx.coroutines",
+    "description": "Library support for Kotlin coroutines",
+    "stargazers_count": 12000,
+    "language": "Kotlin"
+  },
+  {
+    "id": 7,
+    "full_name": "airbnb/lottie-android",
+    "description": "Render After Effects animations natively on Android",
+    "stargazers_count": 34000,
+    "language": "Java"
+  },
+  {
+    "id": 8,
+    "full_name": "facebook/fresco",
+    "description": "An Android library for managing images",
+    "stargazers_count": 17000,
+    "language": "Java"
+  },
+  {
+    "id": 9,
+    "full_name": "JakeWharton/butterknife",
+    "description": "Bind Android views and callbacks",
+    "stargazers_count": 25600,
+    "language": "Java"
+  },
+  {
+    "id": 10,
+    "full_name": "google/gson",
+    "description": "A Java serialization/deserialization library",
+    "stargazers_count": 22000,
+    "language": "Java"
+  },
+  {
+    "id": 11,
+    "full_name": "alibaba/fastjson",
+    "description": "A fast JSON parser/generator",
+    "stargazers_count": 25000,
+    "language": "Java"
+  },
+  {
+    "id": 12,
+    "full_name": "greenrobot/EventBus",
+    "description": "Event bus for Android and Java",
+    "stargazers_count": 24000,
+    "language": "Java"
+  },
+  {
+    "id": 13,
+    "full_name": "afollestad/material-dialogs",
+    "description": "A beautiful dialogs API",
+    "stargazers_count": 19000,
+    "language": "Kotlin"
+  },
+  {
+    "id": 14,
+    "full_name": "Kotlin/anko",
+    "description": "Pleasant Android application development",
+    "stargazers_count": 15900,
+    "language": "Kotlin"
+  },
+  {
+    "id": 15,
+    "full_name": "chrisbanes/tivi",
+    "description": "A modern Android app for watching shows",
+    "stargazers_count": 6000,
+    "language": "Kotlin"
+  }
+]
