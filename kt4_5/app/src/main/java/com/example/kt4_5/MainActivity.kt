@@ -23,9 +23,14 @@ class MainActivity : ComponentActivity() {
 
     private val counterReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == TimerForegroundService.ACTION_COUNTER_UPDATE) {
-                val value = intent.getIntExtra(TimerForegroundService.EXTRA_COUNTER_VALUE, 0)
-                _counter.value = value
+            when (intent?.action) {
+                TimerForegroundService.ACTION_COUNTER_UPDATE -> {
+                    val value = intent.getIntExtra(TimerForegroundService.EXTRA_COUNTER_VALUE, 0)
+                    _counter.value = value
+                }
+                TimerForegroundService.ACTION_COUNTER_RESET -> {
+                    _counter.value = 0
+                }
             }
         }
     }
@@ -34,10 +39,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            TimerScreen(
-                context = this@MainActivity,
-                counter = _counter.value
-            )
+            TimerScreen(counter = _counter.value)
         }
     }
 
@@ -45,7 +47,10 @@ class MainActivity : ComponentActivity() {
         super.onStart()
         LocalBroadcastManager.getInstance(this).registerReceiver(
             counterReceiver,
-            IntentFilter(TimerForegroundService.ACTION_COUNTER_UPDATE)
+            IntentFilter().apply {
+                addAction(TimerForegroundService.ACTION_COUNTER_UPDATE)
+                addAction(TimerForegroundService.ACTION_COUNTER_RESET)
+            }
         )
     }
 
@@ -56,7 +61,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TimerScreen(context: Context, counter: Int) {
+fun TimerScreen(counter: Int) {
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()

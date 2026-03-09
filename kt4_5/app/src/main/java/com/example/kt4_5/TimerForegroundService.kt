@@ -8,12 +8,13 @@ import kotlinx.coroutines.*
 
 class TimerForegroundService : Service() {
 
-    private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private var serviceScope: CoroutineScope? = null
     private var seconds = 0
 
     companion object {
         const val ACTION_COUNTER_UPDATE = "com.example.kt4_5.COUNTER_UPDATE"
         const val EXTRA_COUNTER_VALUE = "counter_value"
+        const val ACTION_COUNTER_RESET = "com.example.kt4_5.COUNTER_RESET"
     }
 
     override fun onCreate() {
@@ -22,7 +23,15 @@ class TimerForegroundService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+        stopTimer()
+
         seconds = 0
+
+        sendResetBroadcast()
+
+        updateNotification(seconds)
+
         startTimer()
 
         startForeground(
@@ -34,27 +43,40 @@ class TimerForegroundService : Service() {
     }
 
     private fun startTimer() {
-        serviceScope.launch {
+        val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+        serviceScope = scope
+
+        scope.launch {
             while (true) {
                 delay(1000)
                 seconds++
 
-
-                val notification = NotificationHelper.buildNotification(this@TimerForegroundService, seconds)
-                val manager = getSystemService(NOTIFICATION_SERVICE) as android.app.NotificationManager
-                manager.notify(NotificationHelper.NOTIFICATION_ID, notification)
-
-
+                updateNotification(seconds)
                 sendCounterBroadcast(seconds)
             }
         }
+    }
+
+    private fun stopTimer() {
+        serviceScope?.cancel()
+        serviceScope = null
+    }
+
+    private fun updateNotification(value: Int) {
+        val notification = NotificationHelper.buildNotification(this, value)
+        val manager = getSystemService(NOTIFICATION_SERVICE) as android.app.NotificationManager
+        manager.notify(NotificationHelper.NOTIFICATION_ID, notification)
     }
 
     private fun sendCounterBroadcast(value: Int) {
         val intent = Intent(ACTION_COUNTER_UPDATE).apply {
             putExtra(EXTRA_COUNTER_VALUE, value)
         }
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
 
+    private fun sendResetBroadcast() {
+        val intent = Intent(ACTION_COUNTER_RESET)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
@@ -62,6 +84,7 @@ class TimerForegroundService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        serviceScope.cancel()
+        stopTimer()
+        sendResetBroadcast()
     }
 }
