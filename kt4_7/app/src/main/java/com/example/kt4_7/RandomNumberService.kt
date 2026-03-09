@@ -20,10 +20,7 @@ class RandomNumberService : Service() {
     // Флаг работы генерации
     private var isGenerating = false
 
-    /**
-     * Локальный Binder - возвращает сам сервис
-     * Чтобы Activity могла вызывать его методы
-     */
+
     inner class LocalBinder : Binder() {
         fun getService(): RandomNumberService = this@RandomNumberService
     }
@@ -33,40 +30,33 @@ class RandomNumberService : Service() {
         startGenerating()
     }
 
-    /**
-     * Запуск генерации случайных чисел
-     */
+
     private fun startGenerating() {
         if (isGenerating) return
 
         isGenerating = true
         serviceScope.launch {
             while (isGenerating) {
-                delay(1000)  // Каждую секунду
-                currentNumber = (0..100).random()  // Случайное число 0-100
+                delay(1000)
+                currentNumber = (0..100).random()
             }
         }
     }
 
-    /**
-     * Остановка генерации
-     */
+
     private fun stopGenerating() {
         isGenerating = false
     }
 
-    /**
-     * Публичный метод для получения текущего числа
-     * Activity будет вызывать его каждую секунду
-     */
+
     fun getCurrentNumber(): Int = currentNumber
 
     override fun onBind(intent: Intent?): IBinder {
-        return binder  // Возвращаем Binder при привязке
+        return binder
     }
 
     override fun onUnbind(intent: Intent?): Boolean {
-        stopGenerating()  // Останавливаем генерацию, если никто не привязан
+        stopGenerating()
         return super.onUnbind(intent)
     }
 

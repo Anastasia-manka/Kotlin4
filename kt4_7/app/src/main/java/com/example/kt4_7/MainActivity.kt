@@ -35,7 +35,6 @@ class MainActivity : ComponentActivity() {
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            // Этот метод вызывается ТОЛЬКО при краше сервиса, не при нашем отключении
             randomNumberService = null
             _isBound.value = false
         }
@@ -77,17 +76,13 @@ class MainActivity : ComponentActivity() {
 
     private fun unbindFromService() {
         if (_isBound.value) {
-            // 1. Останавливаем опрос
             stopPolling()
 
-            // 2. Отвязываемся от сервиса
             unbindService(serviceConnection)
 
-            // 3. ОБНОВЛЯЕМ СОСТОЯНИЕ СРАЗУ (не ждем onServiceDisconnected)
             randomNumberService = null
             _isBound.value = false
 
-            // 4. НЕ сбрасываем _currentNumber - оставляем последнее значение
         }
     }
 

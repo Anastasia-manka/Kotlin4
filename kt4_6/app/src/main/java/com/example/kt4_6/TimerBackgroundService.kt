@@ -36,13 +36,10 @@ class TimerBackgroundService : Service() {
         serviceScope.launch {
             delay(seconds * 1000L)
 
-            // Показываем уведомление
             showNotification()
 
-            // Отправляем сигнал в Activity
             sendFinishBroadcast()
 
-            // Останавливаем сервис
             stopSelf()
         }
     }

@@ -19,13 +19,12 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 class MainActivity : ComponentActivity() {
 
-    // Состояние для отслеживания работы таймера
     private val _isRunning = mutableStateOf(false)
 
     private val finishReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == TimerBackgroundService.ACTION_TIMER_FINISHED) {
-                _isRunning.value = false  // Таймер завершился - кнопка снова активна
+                _isRunning.value = false
             }
         }
     }
@@ -37,7 +36,7 @@ class MainActivity : ComponentActivity() {
             TimerScreen(
                 isRunning = _isRunning.value,
                 onStartTimer = { seconds ->
-                    _isRunning.value = true  // Таймер запущен - кнопка неактивна
+                    _isRunning.value = true
                     val intent = Intent(this, TimerBackgroundService::class.java).apply {
                         putExtra(TimerBackgroundService.EXTRA_SECONDS, seconds)
                     }
@@ -69,7 +68,6 @@ fun TimerScreen(
     val context = LocalContext.current
     var secondsInput by remember { mutableStateOf("") }
 
-    // Преобразуем ввод в число для проверки
     val seconds = secondsInput.toIntOrNull()
 
     Column(
@@ -85,34 +83,31 @@ fun TimerScreen(
             modifier = Modifier.padding(bottom = 32.dp)
         )
 
-        // Поле ввода - неактивно, если таймер работает
         OutlinedTextField(
             value = secondsInput,
             onValueChange = { secondsInput = it },
             label = { Text("Введите секунды") },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !isRunning  // Неактивно во время работы таймера
+            enabled = !isRunning
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Кнопка запуска
         Button(
             onClick = {
                 seconds?.let {
                     onStartTimer(it)
-                    secondsInput = ""  // Очищаем поле после запуска
+                    secondsInput = ""
                 }
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !isRunning && (seconds != null && seconds > 0)  // Неактивно во время работы
+            enabled = !isRunning && (seconds != null && seconds > 0)
         ) {
             Text("Запустить таймер")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // ИНДИКАТОР РАБОТЫ ТАЙМЕРА
         if (isRunning) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
